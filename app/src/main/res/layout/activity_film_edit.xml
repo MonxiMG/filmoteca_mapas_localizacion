@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".FilmEditActivity">
 
-    <!-- AppBar con Toolbar (flecha la activa la Activity) -->
+    <!-- AppBar con Toolbar. La flecha se activa desde FilmEditActivity. -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             app:title="Editar película" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Contenido desplazable -->
+    <!-- Contenido desplazable de la pantalla de edición. -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,7 +34,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Fila 1: Cartel + botones -->
+            <!-- Fila superior: cartel de la película y botones de imagen. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,6 +57,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
+                    <!-- Botón para abrir la cámara. -->
                     <Button
                         android:id="@+id/btnTakePhoto"
                         style="@style/BlackButton"
@@ -65,8 +66,9 @@
                         android:text="@string/action_take_photo"
                         android:layout_marginBottom="8dp"
                         app:backgroundTint="@color/buttonBlack"
-                        android:textColor="@color/textYellow"/>
+                        android:textColor="@color/textYellow" />
 
+                    <!-- Botón para seleccionar una imagen del dispositivo. -->
                     <Button
                         android:id="@+id/btnPickImage"
                         style="@style/BlackButton"
@@ -74,11 +76,11 @@
                         android:layout_height="wrap_content"
                         android:text="@string/action_pick_image"
                         app:backgroundTint="@color/buttonBlack"
-                        android:textColor="@color/textYellow"/>
+                        android:textColor="@color/textYellow" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Título -->
+            <!-- Título de la película. -->
             <EditText
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
@@ -87,7 +89,7 @@
                 android:inputType="textCapWords"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Director -->
+            <!-- Director de la película. -->
             <EditText
                 android:id="@+id/etDirector"
                 android:layout_width="match_parent"
@@ -96,7 +98,7 @@
                 android:inputType="textCapWords"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Año (numérico) -->
+            <!-- Año de estreno. -->
             <EditText
                 android:id="@+id/etYear"
                 android:layout_width="match_parent"
@@ -106,7 +108,7 @@
                 android:maxLength="4"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Género (Spinner) -->
+            <!-- Género de la película. -->
             <Spinner
                 android:id="@+id/spGenre"
                 android:layout_width="match_parent"
@@ -115,7 +117,7 @@
                 android:prompt="@string/prompt_genre"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Formato (Spinner) -->
+            <!-- Formato de la película. -->
             <Spinner
                 android:id="@+id/spFormat"
                 android:layout_width="match_parent"
@@ -124,7 +126,7 @@
                 android:prompt="@string/prompt_format"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Enlace IMDB -->
+            <!-- Enlace a IMDb. -->
             <EditText
                 android:id="@+id/etImdb"
                 android:layout_width="match_parent"
@@ -133,7 +135,7 @@
                 android:inputType="textUri"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Notas (multilínea) -->
+            <!-- Notas de la película. -->
             <EditText
                 android:id="@+id/etNotes"
                 android:layout_width="match_parent"
@@ -144,13 +146,59 @@
                 android:overScrollMode="always"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Botones Guardar / Cancelar -->
+            <!-- Sección de geocercado.
+                 La práctica pide permitir añadir y eliminar geocercado desde la pantalla de edición. -->
+            <TextView
+                android:id="@+id/tvGeofenceTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Geocercado de la película"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Botones Añadir geocercado / Eliminar geocercado. -->
+            <LinearLayout
+                android:id="@+id/layoutGeofenceButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <!-- Botón para añadir una geocerca de 500 metros a la película. -->
+                <Button
+                    android:id="@+id/btnAddGeofence"
+                    style="@style/BlackButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Añadir geocercado"
+                    android:layout_marginEnd="8dp"
+                    app:backgroundTint="@color/buttonBlack"
+                    android:textColor="@color/textYellow" />
+
+                <!-- Botón para eliminar la geocerca de la película. -->
+                <Button
+                    android:id="@+id/btnRemoveGeofence"
+                    style="@style/BlackButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Eliminar geocercado"
+                    android:layout_marginStart="8dp"
+                    app:backgroundTint="@color/buttonBlack"
+                    android:textColor="@color/textYellow" />
+            </LinearLayout>
+
+            <!-- Botones Guardar / Cancelar. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
 
+                <!-- Botón para guardar los datos de la película. -->
                 <Button
                     android:id="@+id/btnSave"
                     style="@style/BlackButton"
@@ -160,8 +208,9 @@
                     android:text="@string/action_save"
                     android:layout_marginEnd="8dp"
                     app:backgroundTint="@color/buttonBlack"
-                    android:textColor="@color/textYellow"/>
+                    android:textColor="@color/textYellow" />
 
+                <!-- Botón para cancelar la edición. -->
                 <Button
                     android:id="@+id/btnCancel"
                     style="@style/BlackButton"
@@ -171,7 +220,7 @@
                     android:text="@string/action_cancel"
                     android:layout_marginStart="8dp"
                     app:backgroundTint="@color/buttonBlack"
-                    android:textColor="@color/textYellow"/>
+                    android:textColor="@color/textYellow" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

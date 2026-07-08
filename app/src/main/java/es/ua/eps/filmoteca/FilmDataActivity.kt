@@ -72,7 +72,7 @@ class FilmDataActivity : AppCompatActivity() {
                             openMap(filmInfo)
                         },
                         onEdit = {
-                            startActivity(Intent(this, FilmEditActivity::class.java))
+                            openEdit(filmInfo)
                         },
                         onBackToMain = {
                             val intent = Intent(this, FilmListActivity::class.java)
@@ -94,24 +94,26 @@ class FilmDataActivity : AppCompatActivity() {
         // Búsqueda de la película por índice.
         if (filmIndex in FilmDataSource.films.indices) {
             val film = FilmDataSource.films[filmIndex]
-            return film.toFilmInfo()
+            return film.toFilmInfo(filmIndex)
         }
 
         // Compatibilidad por si alguna pantalla antigua envía el título.
         val filmTitle = intent.getStringExtra(EXTRA_FILM_TITLE)
 
         if (!filmTitle.isNullOrBlank()) {
-            val film = FilmDataSource.films.firstOrNull {
+            val index = FilmDataSource.films.indexOfFirst {
                 it.title.equals(filmTitle, ignoreCase = true)
             }
 
-            if (film != null) {
-                return film.toFilmInfo()
+            if (index in FilmDataSource.films.indices) {
+                val film = FilmDataSource.films[index]
+                return film.toFilmInfo(index)
             }
         }
 
         // Película por defecto si no se recibe información válida.
         return FilmInfo(
+            filmIndex = -1,
             posterRes = R.drawable.ic_launcher_foreground,
             title = "Película desconocida",
             director = "Desconocido",
@@ -121,13 +123,15 @@ class FilmDataActivity : AppCompatActivity() {
             imdbUrl = "https://www.imdb.com/",
             notes = "",
             latitude = 0.0,
-            longitude = 0.0
+            longitude = 0.0,
+            geofenceEnabled = false
         )
     }
 
-    private fun Film.toFilmInfo(): FilmInfo {
+    private fun Film.toFilmInfo(index: Int): FilmInfo {
         // Conversión del modelo Film al modelo visual FilmInfo.
         return FilmInfo(
+            filmIndex = index,
             posterRes = posterRes,
             title = title,
             director = director,
@@ -137,7 +141,8 @@ class FilmDataActivity : AppCompatActivity() {
             imdbUrl = imdbUrl,
             notes = notes,
             latitude = latitude,
-            longitude = longitude
+            longitude = longitude,
+            geofenceEnabled = geofenceEnabled
         )
     }
 
@@ -159,9 +164,19 @@ class FilmDataActivity : AppCompatActivity() {
 
         startActivity(intent)
     }
+
+    private fun openEdit(filmInfo: FilmInfo) {
+        // Apertura de la pantalla de edición enviando el índice de la película.
+        val intent = Intent(this, FilmEditActivity::class.java).apply {
+            putExtra(FilmEditActivity.EXTRA_FILM_INDEX, filmInfo.filmIndex)
+        }
+
+        startActivity(intent)
+    }
 }
 
 data class FilmInfo(
+    val filmIndex: Int,
     val posterRes: Int,
     val title: String,
     val director: String,
@@ -171,7 +186,8 @@ data class FilmInfo(
     val imdbUrl: String,
     val notes: String,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
+    val geofenceEnabled: Boolean
 )
 
 /* ---------------- Scaffold con App Bar ---------------- */
@@ -284,6 +300,12 @@ fun FilmDataScreenCompose(
                 LabeledValue(
                     label = "Coordenadas",
                     value = "${info.latitude}, ${info.longitude}"
+                )
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                LabeledValue(
+                    label = "Geocercado",
+                    value = if (info.geofenceEnabled) "Activado" else "Desactivado"
                 )
             }
         }
