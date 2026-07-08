@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilo personalizado para botones negros -->
+    <style name="BlackButton" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/textYellow</item>
+    </style>
+</resources>

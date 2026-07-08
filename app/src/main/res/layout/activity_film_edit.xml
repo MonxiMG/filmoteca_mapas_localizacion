@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FilmEditActivity">
+
+    <!-- AppBar con Toolbar (flecha la activa la Activity) -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.Material3.Light"
+            app:title="Editar película" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Contenido desplazable -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Fila 1: Cartel + botones -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/ivPosterEdit"
+                    android:layout_width="96dp"
+                    android:layout_height="140dp"
+                    android:src="@drawable/pelicula_a"
+                    android:contentDescription="@string/cd_poster_edit"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnTakePhoto"
+                        style="@style/BlackButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_take_photo"
+                        android:layout_marginBottom="8dp"
+                        app:backgroundTint="@color/buttonBlack"
+                        android:textColor="@color/textYellow"/>
+
+                    <Button
+                        android:id="@+id/btnPickImage"
+                        style="@style/BlackButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_pick_image"
+                        app:backgroundTint="@color/buttonBlack"
+                        android:textColor="@color/textYellow"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Título -->
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_title"
+                android:inputType="textCapWords"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Director -->
+            <EditText
+                android:id="@+id/etDirector"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_director"
+                android:inputType="textCapWords"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Año (numérico) -->
+            <EditText
+                android:id="@+id/etYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_year"
+                android:inputType="number"
+                android:maxLength="4"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Género (Spinner) -->
+            <Spinner
+                android:id="@+id/spGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/genres"
+                android:prompt="@string/prompt_genre"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Formato (Spinner) -->
+            <Spinner
+                android:id="@+id/spFormat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/formats"
+                android:prompt="@string/prompt_format"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Enlace IMDB -->
+            <EditText
+                android:id="@+id/etImdb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_imdb"
+                android:inputType="textUri"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Notas (multilínea) -->
+            <EditText
+                android:id="@+id/etNotes"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:hint="@string/hint_notes"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Botones Guardar / Cancelar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    style="@style/BlackButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/action_save"
+                    android:layout_marginEnd="8dp"
+                    app:backgroundTint="@color/buttonBlack"
+                    android:textColor="@color/textYellow"/>
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    style="@style/BlackButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/action_cancel"
+                    android:layout_marginStart="8dp"
+                    app:backgroundTint="@color/buttonBlack"
+                    android:textColor="@color/textYellow"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

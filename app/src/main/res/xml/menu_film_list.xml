@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_add"
+        android:title="@string/menu_add_movie"
+        android:icon="@drawable/filmoteca_banner"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/menu_about"
+        android:icon="@drawable/rosa_azul"
+        app:showAsAction="ifRoom|withText" />
+</menu>

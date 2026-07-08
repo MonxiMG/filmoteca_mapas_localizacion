@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--Directorio de imágenes privadas de la app -->
+    <external-files-path
+        name="images"
+        path="Pictures" />
+    <cache-path
+        name="cache"
+        path="images/" />
+</paths>

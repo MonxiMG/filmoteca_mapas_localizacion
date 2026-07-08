@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Filmoteca</string>
+
+    <!-- About -->
+    <string name="about_author">Created by %1$s</string>
+    <string name="about_image_cd">Image blue rose</string>
+
+    <!-- Botones -->
+    <string name="btnWeb">Open Web Site</string>
+    <string name="btnSupport">Get Support</string>
+    <string name="btnBack">Back</string>
+
+    <!-- Mensajes -->
+    <string name="msg_not_implemented">Feature not implemented</string>
+
+    <!-- FilmList -->
+    <string name="title_film_list">Film  List</string>
+    <string name="action_see_film_a">See film A</string>
+    <string name="action_see_film_b">See film B</string>
+    <string name="action_exit_app">Exit</string>
+    <string name="action_about">About</string>
+
+    <!-- FilmData -->
+    <string name="title_film_data">Film Data</string>
+    <string name="action_related">Ver película relacionada</string>
+    <string name="action_edit">Edit Film</string>
+    <string name="action_back_to_main">Back to Main</string>
+    <string name="action_imdb">See IMDB</string>
+    <string name="hint_notes">User notes...</string>
+    <string name="about_image_film">Film poster</string>
+
+    <!-- FilmEdit -->
+    <string name="title_film_edit">Editando película</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+
+    <!-- Edición -->
+    <string name="cd_poster_edit">Cartel de la película (edición)</string>
+    <string name="action_take_photo">Tomar una fotografía</string>
+    <string name="action_pick_image">Seleccionar una imagen</string>
+
+    <!-- Hints -->
+    <string name="hint_title">Títtle film</string>
+    <string name="hint_director">Director</string>
+    <string name="hint_year">Release Year</string>
+    <string name="hint_imdb">ELink to IMDB</string>
+
+    <!-- Prompts de Spinners -->
+    <string name="prompt_genre">Select a genre</string>
+    <string name="prompt_format">Select a format</string>
+
+    <string name="menu_add_movie">Añadir película</string>
+    <string name="menu_about">About...</string>
+</resources>

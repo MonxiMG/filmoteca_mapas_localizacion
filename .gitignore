@@ -1,0 +1,61 @@
+# === Android & Gradle ===
+*.iml
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Local configuration
+local.properties
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+.idea/
+app/build/
+*.apk
+*.ap_
+*.aab
+
+# === Android Studio ===
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/compiler.xml
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/gradle.xml
+/.idea/shelf/
+
+# === Keystore / sensitive files ===
+*.jks
+*.keystore
+google-services.json
+GoogleService-Info.plist
+
+# === Jetpack Compose ===
+compose-debug/
+.compose-cache/
+
+# === Logs / temporary ===
+*.log
+*.tmp
+*.lock
+*.bak
+*.orig
+*.rej
+
+# === Misc system ===
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.AppleDouble
+.LSOverride
+
+# === Videos / media ===
+*.mp4
+/.idea/

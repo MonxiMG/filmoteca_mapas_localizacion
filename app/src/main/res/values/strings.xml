@@ -1,0 +1,61 @@
+<resources>
+    <string name="app_name">Filmoteca</string>
+
+    <!-- About -->
+    <string name="about_author">Creada por %1$s</string>
+    <string name="about_image_cd">Imagen de una rosa azul</string>
+
+    <!-- Botones -->
+    <string name="btnWeb">Ir al sitio web</string>
+    <string name="btnSupport">Obtener soporte</string>
+    <string name="btnBack">Volver</string>
+
+    <!-- Mensajes -->
+    <string name="msg_not_implemented">Funcionalidad sin implementar</string>
+
+    <!-- FilmList -->
+    <string name="title_film_list">Listado de películas</string>
+    <string name="action_see_film_a">Ver película A</string>
+    <string name="action_see_film_b">Ver película B</string>
+    <string name="action_exit_app">Salir de la aplicación</string>
+
+    <!-- FilmData -->
+    <string name="title_film_data">Datos de la película</string>
+    <string name="action_related">Ver película relacionada</string>
+    <string name="action_edit">Editar película</string>
+    <string name="action_back_to_main">Atrás</string>
+    <string name="action_imdb">Ver en IMDB</string>
+    <string name="hint_notes">Notas del usuario...</string>
+    <string name="about_image_film">Cartel de la película</string>
+
+
+    <!-- FilmEdit -->
+    <string name="title_film_edit">Editando película</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Práctica 3 HINTS-->
+    <!-- Edición -->
+    <string name="cd_poster_edit">Cartel de la película (edición)</string>
+    <string name="action_take_photo">Tomar una fotografía</string>
+    <string name="action_pick_image">Seleccionar una imagen</string>
+
+    <!-- Hints -->
+    <string name="hint_title">Título de la película</string>
+    <string name="hint_director">Director</string>
+    <string name="hint_year">Año de estreno</string>
+    <string name="hint_imdb">Enlace a IMDB</string>
+
+    <!-- Prompts de Spinners -->
+    <string name="prompt_genre">Selecciona un género</string>
+    <string name="prompt_format">Selecciona un formato</string>
+
+    <!-- Listado Pelicualas -->
+    <string name="cd_filmoteca_banner">Banner filmoteca</string>
+
+
+    <string name="menu_add_movie">Añadir película</string>
+    <string name="menu_about">Acerca de</string>
+    <string name="menu_delete">Borrar</string>
+
+</resources>
