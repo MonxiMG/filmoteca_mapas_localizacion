@@ -48,7 +48,7 @@ object FilmDataSource {
             posterRes = R.drawable.ic_launcher_foreground,
             notes = "Studio Ghibli",
 
-            // Coordenadas aproximadas de una localización relacionada.
+            // Coordenadas aproximadas de una localización relacionada con la película.
             latitude = 35.7148,
             longitude = 139.7967,
 

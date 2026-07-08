@@ -148,7 +148,7 @@ class FilmDataActivity : AppCompatActivity() {
     }
 
     private fun openMap(filmInfo: FilmInfo) {
-        // Apertura de la pantalla de mapa con los datos de la película.
+        // Apertura de la pantalla de mapa con los datos necesarios para el marcador.
         val intent = Intent(this, MapActivity::class.java).apply {
             putExtra(MapActivity.EXTRA_TITLE, filmInfo.title)
             putExtra(MapActivity.EXTRA_DIRECTOR, filmInfo.director)

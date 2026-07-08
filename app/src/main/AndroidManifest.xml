@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permiso necesario para cargar el mapa web. -->
+    <!-- Permiso necesario para que Google Maps pueda descargar el mapa. -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permiso necesario para comprobar el estado de la conexión. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permisos para cámara e imágenes. Los permisos se solicitan en runtime en FilmEditActivity. -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -16,6 +19,11 @@
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="false" />
+
+    <!-- Requerimiento de OpenGL ES 2.0 para Google Maps. -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <!-- Visibilidad de paquetes para cámara y selector de imágenes. -->
     <queries>
@@ -43,6 +51,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmoteca">
+
+        <!-- Clave de Google Maps.
+             La clave real no se escribe aquí.
+             Gradle la lee desde local.properties con MAPS_API_KEY. -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${mapsApiKey}" />
 
         <!-- FileProvider necesario para compartir archivos de imagen desde la app. -->
         <provider
@@ -90,7 +105,7 @@
             android:exported="false"
             android:parentActivityName=".FilmListActivity" />
 
-        <!-- Pantalla de mapa web con marcador de la película. -->
+        <!-- Pantalla oficial de Google Maps. -->
         <activity
             android:name=".MapActivity"
             android:exported="false"

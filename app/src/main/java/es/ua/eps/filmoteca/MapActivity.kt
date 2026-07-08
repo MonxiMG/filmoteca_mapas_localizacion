@@ -1,12 +1,16 @@
 package es.ua.eps.filmoteca
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class MapActivity : AppCompatActivity() {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val EXTRA_TITLE = "EXTRA_TITLE"
@@ -16,114 +20,69 @@ class MapActivity : AppCompatActivity() {
         const val EXTRA_LONGITUDE = "EXTRA_LONGITUDE"
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    private var filmTitle: String = ""
+    private var filmDirector: String = ""
+    private var filmYear: String = ""
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Carga del layout que contiene el SupportMapFragment.
+        setContentView(R.layout.activity_maps)
+
         // Lectura de los datos recibidos desde FilmDataActivity.
-        val title = intent.getStringExtra(EXTRA_TITLE) ?: "Película"
-        val director = intent.getStringExtra(EXTRA_DIRECTOR) ?: "Director desconocido"
-        val year = intent.getStringExtra(EXTRA_YEAR) ?: "Sin año"
-        val latitude = intent.getDoubleExtra(EXTRA_LATITUDE, 0.0)
-        val longitude = intent.getDoubleExtra(EXTRA_LONGITUDE, 0.0)
+        filmTitle = intent.getStringExtra(EXTRA_TITLE) ?: "Película"
+        filmDirector = intent.getStringExtra(EXTRA_DIRECTOR) ?: "Director desconocido"
+        filmYear = intent.getStringExtra(EXTRA_YEAR) ?: "Sin año"
+        latitude = intent.getDoubleExtra(EXTRA_LATITUDE, 0.0)
+        longitude = intent.getDoubleExtra(EXTRA_LONGITUDE, 0.0)
 
-        // Creación del WebView por código.
-        val webView = WebView(this)
+        // Registro en Logcat para comprobar que los datos llegan correctamente.
+        Log.d("MAP_TEST", "Título: $filmTitle")
+        Log.d("MAP_TEST", "Director: $filmDirector")
+        Log.d("MAP_TEST", "Año: $filmYear")
+        Log.d("MAP_TEST", "Latitud: $latitude")
+        Log.d("MAP_TEST", "Longitud: $longitude")
 
-        // Activación de JavaScript para que Leaflet pueda mostrar el mapa.
-        webView.settings.javaScriptEnabled = true
+        // Obtención del fragmento de mapa definido en activity_maps.xml.
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
 
-        // Activación de almacenamiento DOM para mejorar la carga del mapa.
-        webView.settings.domStorageEnabled = true
-
-        // Apertura del contenido dentro del propio WebView.
-        webView.webViewClient = WebViewClient()
-
-        // Visualización del WebView en pantalla.
-        setContentView(webView)
-
-        // Carga del mapa HTML.
-        webView.loadDataWithBaseURL(
-            "https://carto.com/",
-            createMapHtml(
-                title = title,
-                director = director,
-                year = year,
-                latitude = latitude,
-                longitude = longitude
-            ),
-            "text/html",
-            "UTF-8",
-            null
-        )
+        // Solicitud del mapa de forma asíncrona.
+        mapFragment.getMapAsync(this)
     }
 
-    private fun createMapHtml(
-        title: String,
-        director: String,
-        year: String,
-        latitude: Double,
-        longitude: Double
-    ): String {
-        // Escapado sencillo para evitar errores si el texto contiene comillas simples.
-        val safeTitle = title.replace("'", "\\'")
-        val safeDirector = director.replace("'", "\\'")
-        val safeYear = year.replace("'", "\\'")
+    override fun onMapReady(googleMap: GoogleMap) {
+        // Creación de la posición de la película.
+        val filmLocation = LatLng(latitude, longitude)
 
-        // HTML con Leaflet y fondo de mapa de CARTO.
-        // Se evita usar directamente tile.openstreetmap.org para que no salga "Access blocked".
-        return """
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                
-                <link
-                    rel="stylesheet"
-                    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-                
-                <script
-                    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-                </script>
-                
-                <style>
-                    html, body {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                    }
-                    
-                    #map {
-                        width: 100%;
-                        height: 100%;
-                    }
-                </style>
-            </head>
-            
-            <body>
-                <div id="map"></div>
-                
-                <script>
-                    // Creación del mapa centrado en las coordenadas de la película.
-                    var map = L.map('map').setView([$latitude, $longitude], 14);
-                    
-                    // Capa base de CARTO para evitar el bloqueo de las teselas directas de OpenStreetMap.
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                        maxZoom: 19,
-                        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-                    }).addTo(map);
-                    
-                    // Creación del marcador de la película.
-                    var marker = L.marker([$latitude, $longitude]).addTo(map);
-                    
-                    // Ventana de información del marcador.
-                    marker.bindPopup(
-                        '<b>$safeTitle</b><br>$safeDirector - $safeYear'
-                    ).openPopup();
-                </script>
-            </body>
-            </html>
-        """.trimIndent()
+        // Configuración básica del tipo de mapa.
+        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+        // Activación de controles básicos del mapa.
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isCompassEnabled = true
+        googleMap.uiSettings.isMapToolbarEnabled = true
+
+        // Creación del marcador.
+        val marker = googleMap.addMarker(
+            MarkerOptions()
+                .position(filmLocation)
+                .title(filmTitle)
+                .snippet("$filmDirector - $filmYear")
+        )
+
+        // Movimiento de la cámara hacia la posición de la película.
+        googleMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(filmLocation, 14f)
+        )
+
+        // Apertura automática de la ventana de información del marcador.
+        marker?.showInfoWindow()
+
+        // Registro para confirmar que el mapa ha sido preparado.
+        Log.d("MAP_TEST", "Mapa preparado y marcador añadido")
     }
 }

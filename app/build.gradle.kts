@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,20 @@ plugins {
     // Plugin necesario para conectar la app con Firebase.
     id("com.google.gms.google-services")
 }
+
+// Lectura del archivo local.properties.
+// Aquí se leerá la clave de Google Maps sin escribirla directamente en el código.
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+
+    if (localPropertiesFile.exists()) {
+        load(localPropertiesFile.inputStream())
+    }
+}
+
+// Obtención de la clave de Google Maps.
+// Si no existe la clave, se usa una cadena vacía para que el proyecto pueda compilar.
+val mapsApiKey = localProperties.getProperty("MAPS_API_KEY", "")
 
 android {
     namespace = "es.ua.eps.filmoteca"
@@ -17,6 +33,10 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Inyección de la clave de Google Maps en el AndroidManifest.xml.
+        // La clave real se guarda en local.properties y no se sube a GitHub.
+        manifestPlaceholders["mapsApiKey"] = mapsApiKey
     }
 
     buildTypes {
@@ -67,6 +87,9 @@ dependencies {
 
     // --- Google Sign In ---
     implementation("com.google.android.gms:play-services-auth:21.4.0")
+
+    // --- Google Maps SDK for Android ---
+    implementation("com.google.android.gms:play-services-maps:19.2.0")
 
     // --- Firebase ---
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
