@@ -29,27 +29,30 @@ android {
         }
     }
 
-    // XML + Compose
+    // Activación de XML, ViewBinding y Compose.
     buildFeatures {
         viewBinding = true
         compose = true
         buildConfig = true
     }
 
+    // Versión del compilador de Compose.
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"
     }
 
-    // Java/Kotlin 17
+    // Configuración de Java 17.
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    // Configuración de Kotlin 17.
     kotlinOptions {
         jvmTarget = "17"
     }
 
-    // Evitar conflictos de empaquetado (licencias duplicadas)
+    // Exclusión de licencias duplicadas para evitar conflictos de empaquetado.
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
@@ -70,12 +73,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-messaging")
 
-    // --- Activity (XML y Compose) ---
-    // Forzamos versión 1.9.3 compatible con AGP 8.6.0
+    // --- Activity para XML y Compose ---
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.activity:activity-compose:1.9.3")
 
-    // --- Compose con BOM (no uses versiones sueltas) ---
+    // --- Compose con BOM ---
     val composeBom = platform("androidx.compose:compose-bom:2024.09.03")
     implementation(composeBom)
     androidTestImplementation(composeBom)
@@ -94,7 +96,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
 
-// --- Seguridad adicional (evita que se cuelen libs 1.11.0) ---
+// Seguridad adicional para evitar que Gradle use versiones incompatibles de Activity.
 configurations.all {
     resolutionStrategy {
         force(

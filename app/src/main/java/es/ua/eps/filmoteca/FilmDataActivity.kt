@@ -65,7 +65,12 @@ class FilmDataActivity : AppCompatActivity() {
                 ) {
                     FilmDataScreenCompose(
                         info = filmInfo,
-                        onOpenImdb = { openUrl(filmInfo.imdbUrl) },
+                        onOpenImdb = {
+                            openUrl(filmInfo.imdbUrl)
+                        },
+                        onOpenMap = {
+                            openMap(filmInfo)
+                        },
                         onEdit = {
                             startActivity(Intent(this, FilmEditActivity::class.java))
                         },
@@ -114,7 +119,9 @@ class FilmDataActivity : AppCompatActivity() {
             genre = "Sin género",
             format = "Sin formato",
             imdbUrl = "https://www.imdb.com/",
-            notes = ""
+            notes = "",
+            latitude = 0.0,
+            longitude = 0.0
         )
     }
 
@@ -128,13 +135,28 @@ class FilmDataActivity : AppCompatActivity() {
             genre = genre,
             format = format,
             imdbUrl = imdbUrl,
-            notes = notes
+            notes = notes,
+            latitude = latitude,
+            longitude = longitude
         )
     }
 
     private fun openUrl(url: String) {
         // Apertura de la URL de IMDb en el navegador.
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
+    private fun openMap(filmInfo: FilmInfo) {
+        // Apertura de la pantalla de mapa con los datos de la película.
+        val intent = Intent(this, MapActivity::class.java).apply {
+            putExtra(MapActivity.EXTRA_TITLE, filmInfo.title)
+            putExtra(MapActivity.EXTRA_DIRECTOR, filmInfo.director)
+            putExtra(MapActivity.EXTRA_YEAR, filmInfo.year)
+            putExtra(MapActivity.EXTRA_LATITUDE, filmInfo.latitude)
+            putExtra(MapActivity.EXTRA_LONGITUDE, filmInfo.longitude)
+        }
+
         startActivity(intent)
     }
 }
@@ -147,7 +169,9 @@ data class FilmInfo(
     val genre: String,
     val format: String,
     val imdbUrl: String,
-    val notes: String
+    val notes: String,
+    val latitude: Double,
+    val longitude: Double
 )
 
 /* ---------------- Scaffold con App Bar ---------------- */
@@ -196,6 +220,7 @@ private fun FilmDataScaffold(
 fun FilmDataScreenCompose(
     info: FilmInfo,
     onOpenImdb: () -> Unit,
+    onOpenMap: () -> Unit,
     onEdit: () -> Unit,
     onBackToMain: () -> Unit
 ) {
@@ -254,6 +279,12 @@ fun FilmDataScreenCompose(
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
 
                 LabeledValue(label = "Formato", value = info.format)
+                Divider(modifier = Modifier.padding(vertical = 8.dp))
+
+                LabeledValue(
+                    label = "Coordenadas",
+                    value = "${info.latitude}, ${info.longitude}"
+                )
             }
         }
 
@@ -279,6 +310,17 @@ fun FilmDataScreenCompose(
                 .padding(bottom = 12.dp)
         ) {
             Text(text = stringResource(R.string.action_imdb))
+        }
+
+        // Botón Ver mapa.
+        Button(
+            onClick = onOpenMap,
+            colors = buttonColors,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp)
+        ) {
+            Text(text = "Ver mapa")
         }
 
         // Botón editar.

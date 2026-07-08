@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permiso necesario para cargar el mapa web. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Permisos para cámara e imágenes. Los permisos se solicitan en runtime en FilmEditActivity. -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -19,10 +22,12 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
+
         <intent>
             <action android:name="android.intent.action.PICK" />
             <data android:mimeType="image/*" />
         </intent>
+
         <intent>
             <action android:name="android.intent.action.GET_CONTENT" />
             <data android:mimeType="image/*" />
@@ -39,55 +44,68 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmoteca">
 
+        <!-- FileProvider necesario para compartir archivos de imagen desde la app. -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- Pantalla inicial de la aplicación -->
+        <!-- Pantalla inicial de la aplicación. -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Pantalla principal de la Filmoteca -->
+        <!-- Pantalla principal de la Filmoteca. -->
         <activity
             android:name=".FilmListActivity"
             android:exported="false" />
 
-        <!-- Pantallas secundarias con flecha HOME hacia FilmListActivity -->
+        <!-- Pantalla de datos de una película. -->
         <activity
             android:name=".FilmDataActivity"
             android:exported="false"
             android:parentActivityName=".FilmListActivity" />
 
+        <!-- Pantalla de edición de una película. -->
         <activity
             android:name=".FilmEditActivity"
             android:exported="false"
             android:parentActivityName=".FilmListActivity" />
 
+        <!-- Pantalla Acerca de. -->
         <activity
             android:name=".AboutActivity"
             android:exported="false"
             android:parentActivityName=".FilmListActivity" />
 
-        <!-- Servicio para recibir mensajes de Firebase Cloud Messaging -->
+        <!-- Pantalla de mapa web con marcador de la película. -->
+        <activity
+            android:name=".MapActivity"
+            android:exported="false"
+            android:parentActivityName=".FilmDataActivity" />
+
+        <!-- Servicio para recibir mensajes de Firebase Cloud Messaging. -->
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
+
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
     </application>
+
 </manifest>

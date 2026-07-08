@@ -12,7 +12,14 @@ object FilmDataSource {
             format = "Blu-ray",
             imdbUrl = "https://www.imdb.com/title/tt0133093/",
             posterRes = R.drawable.ic_launcher_foreground,
-            notes = "Clásico de ciencia ficción"
+            notes = "Clásico de ciencia ficción",
+
+            // Coordenadas aproximadas de una localización de rodaje.
+            latitude = 37.8114,
+            longitude = -122.4777,
+
+            // Geocercado desactivado inicialmente.
+            geofenceEnabled = false
         ),
         Film(
             title = "Inception",
@@ -22,7 +29,14 @@ object FilmDataSource {
             format = "Digital",
             imdbUrl = "https://www.imdb.com/title/tt1375666/",
             posterRes = R.drawable.ic_launcher_foreground,
-            notes = ""
+            notes = "",
+
+            // Coordenadas aproximadas de una localización de rodaje.
+            latitude = 48.8738,
+            longitude = 2.2950,
+
+            // Geocercado desactivado inicialmente.
+            geofenceEnabled = false
         ),
         Film(
             title = "Spirited Away",
@@ -32,7 +46,14 @@ object FilmDataSource {
             format = "DVD",
             imdbUrl = "https://www.imdb.com/title/tt0245429/",
             posterRes = R.drawable.ic_launcher_foreground,
-            notes = "Studio Ghibli"
+            notes = "Studio Ghibli",
+
+            // Coordenadas aproximadas de una localización relacionada.
+            latitude = 35.7148,
+            longitude = 139.7967,
+
+            // Geocercado desactivado inicialmente.
+            geofenceEnabled = false
         )
     )
 
@@ -45,19 +66,28 @@ object FilmDataSource {
     }
 
     fun add(film: Film) {
+        // Alta manual de una película.
         films.add(film)
+
+        // Notificación a la interfaz.
         notifyFilmsChanged()
     }
 
     fun removeAt(index: Int) {
+        // Eliminación de una película por posición si la posición es válida.
         if (index in films.indices) {
             films.removeAt(index)
+
+            // Notificación a la interfaz.
             notifyFilmsChanged()
         }
     }
 
     fun clearAll() {
+        // Eliminación de todas las películas.
         films.clear()
+
+        // Notificación a la interfaz.
         notifyFilmsChanged()
     }
 
@@ -70,12 +100,18 @@ object FilmDataSource {
         return if (index >= 0) {
             // Actualización de la película existente.
             films[index] = film
+
+            // Notificación a la interfaz.
             notifyFilmsChanged()
+
             "Película actualizada: ${film.title}"
         } else {
             // Alta de una nueva película.
             films.add(film)
+
+            // Notificación a la interfaz.
             notifyFilmsChanged()
+
             "Película añadida: ${film.title}"
         }
     }
@@ -89,7 +125,10 @@ object FilmDataSource {
         return if (index >= 0) {
             // Eliminación de la película existente.
             films.removeAt(index)
+
+            // Notificación a la interfaz.
             notifyFilmsChanged()
+
             "Película eliminada: $title"
         } else {
             // Resultado sin cambios cuando la película no existe.
@@ -126,17 +165,34 @@ object FilmDataSource {
                     format = data["format"] ?: data["formato"] ?: "Digital",
                     imdbUrl = data["imdbUrl"] ?: data["imdb"] ?: "https://www.imdb.com/",
                     posterRes = R.drawable.ic_launcher_foreground,
-                    notes = data["notes"] ?: data["notas"] ?: ""
+                    notes = data["notes"] ?: data["notas"] ?: "",
+
+                    // Lectura de latitud recibida por FCM.
+                    latitude = data["latitude"]?.toDoubleOrNull()
+                        ?: data["latitud"]?.toDoubleOrNull()
+                        ?: 0.0,
+
+                    // Lectura de longitud recibida por FCM.
+                    longitude = data["longitude"]?.toDoubleOrNull()
+                        ?: data["longitud"]?.toDoubleOrNull()
+                        ?: 0.0,
+
+                    // Lectura del estado del geocercado recibido por FCM.
+                    geofenceEnabled = data["geofenceEnabled"]?.toBooleanStrictOrNull()
+                        ?: data["geocercado"]?.toBooleanStrictOrNull()
+                        ?: false
                 )
 
                 addOrUpdateFilm(film)
             }
 
             "baja", "delete", "remove" -> {
+                // Baja de película a partir del título recibido.
                 deleteFilmByTitle(title)
             }
 
             else -> {
+                // Operación no reconocida.
                 "Operación FCM no reconocida: $operation"
             }
         }
