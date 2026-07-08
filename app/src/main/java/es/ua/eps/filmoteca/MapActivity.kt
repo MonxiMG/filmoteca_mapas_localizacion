@@ -2,6 +2,7 @@ package es.ua.eps.filmoteca
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,6 +10,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.appbar.MaterialToolbar
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -29,8 +31,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Carga del layout que contiene el SupportMapFragment.
+        // Carga del layout que contiene la Toolbar y el SupportMapFragment.
         setContentView(R.layout.activity_maps)
+
+        // Configuración de la Toolbar superior.
+        findViewById<MaterialToolbar?>(R.id.toolbarMap)?.let { toolbar ->
+            setSupportActionBar(toolbar)
+
+            // Activación de la flecha de volver.
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+            // Título mostrado en la barra superior.
+            supportActionBar?.title = "Mapa de la película"
+        }
 
         // Lectura de los datos recibidos desde FilmDataActivity.
         filmTitle = intent.getStringExtra(EXTRA_TITLE) ?: "Película"
@@ -84,5 +97,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Registro para confirmar que el mapa ha sido preparado.
         Log.d("MAP_TEST", "Mapa preparado y marcador añadido")
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Control de la flecha de volver de la Toolbar.
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
     }
 }
